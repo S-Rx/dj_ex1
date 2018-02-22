@@ -12,10 +12,12 @@
         </tr>
         {% for good in object_list %}
             <tr>
-                <td><a href="{% url "good" good_id=good.id %}?page={{ page_obj.number }}">{{ good.name }}</a> </td>
+                <td><a href="{% url 'good' good_id=good.id %}?page={{ page_obj.number }}">{{ good.name }}</a></td>
                 <td class="centered">{{ good.get_in_stock }}</td>
-                <td class="centered"><a href="{% url "good_edit" good_id=good.id %}?page={{ page_obj.number }}">Изменить</a> </td>
-                <td class="centered"><a href="{% url "good_delete" good_id=good.id %}?page={{ page_obj.number }}">Удалить</a> </td>
+                <td class="centered"><a
+                        href="{% url 'good_edit' good_id=good.id %}?page={{ page_obj.number }}">Изменить</a></td>
+                <td class="centered"><a href="{% url 'good_delete' good_id=good.id %}?page={{ page_obj.number }}">Удалить</a>
+                </td>
 
             </tr>
         {% endfor %}
@@ -23,10 +25,13 @@
     {% if paginator.num_pages > 1 %}
         <div id="pagination">
             {% if page_obj.has_previous %}
-                <div id="previous-page"><a href="{% url "index" cat_id=category.pk %}?page={{ page_obj.previous_page_number }}">&lt;</a> </div>
+                <div id="previous-page"><a
+                        href="{% url 'index' cat_id=category.pk %}?page={{ page_obj.previous_page_number }}">&lt;</a>
+                </div>
             {% endif %}
             {% if page_obj.has_next %}
-                <div id="next-page"><a href="{% url "index" cat_id=category.pk %}?page={{ page_obj.next_page_number }}">&gt;</a> </div>
+                <div id="next-page"><a href="{% url 'index' cat_id=category.pk %}?page={{ page_obj.next_page_number }}">&gt;</a>
+                </div>
             {% endif %}
             <div id="num-pages">
                 {% for pn in paginator.page_range %}

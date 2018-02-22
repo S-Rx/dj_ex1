@@ -5,10 +5,10 @@
         <h2>{{ good.name }}</h2>
         <p class="category">Категория: {{ good.category.name }}</p>
         <p>{{ good.description|linebreaksbr }}</p>
-        <p class="not-in-stock">{% if not good.in_stock %}Нета в наличии{% endif %}</p>
+        <p class="not-in-stock">{% if not good.in_stock %}Нет в наличии{% endif %}</p>
         <form action="" method="post">
             {% csrf_token %}
-            <input type="submit" name="Удалить">
+            <input type="submit" value="Удалить">
         </form>
 
         <p><a href="{% url "index" cat_id=good.category.id %}?page={{ pn }}">Назад</a> </p>

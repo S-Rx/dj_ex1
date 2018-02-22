@@ -127,7 +127,7 @@ class GoodUpdate(UpdateView, GoodEditMixin, GoodEditView):
 	fields = "__all__"
 
 	def post(self, request, *args, **kwargs):
-		self.success_url = reverse("index", kwargs= {
+		self.success_url = reverse("index", kwargs={
 			"cat_id": Good.objects.get(pk=kwargs["good_id"]).category.id,
 		})
 		return super(GoodUpdate, self).post(request, *args, **kwargs)

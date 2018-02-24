@@ -3,6 +3,13 @@
 {% block main %}
     <h2>{{ category.name }}</h2>
     <p><a href="{% url 'good_add' cat_id=category.id %}?page={{ page_obj.number }}">Добавить товар</a> </p>
+    {% if messages %}
+        <ul class="messagelist">
+            {% for msg in messages %}
+                <li class="{{ message.tags }}">{{ msg }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <table>
         <tr>
             <th>Название</th>

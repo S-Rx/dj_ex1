@@ -13,10 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views
+
+from firstapp.models import Category
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^goods/', include("firstapp.urls"))
-]
+                  url(r'^goods/', include("firstapp.urls")),
+                  url(r'^login/$', views.login,
+                      {"template_name": "login.html", "extra_context": {"cats": Category.objects.all()}}, name="login"),
+                  url(r'^logout/$', views.logout,
+                      {"template_name": "logout.html", "extra_context": {"cats": Category.objects.all()}},
+                      name='logout')
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

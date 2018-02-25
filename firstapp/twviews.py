@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.base import ContextMixin
-from django.views.generic.edit import ProcessFormView, UpdateView, DeleteView
+from django.views.generic.edit import ProcessFormView, UpdateView, DeleteView, CreateView
 
 from .forms import GoodFormCustomFields, GoodFormMetaEditing
 from .models import Category, Good
@@ -122,6 +122,20 @@ class GoodEditView(ProcessFormView):
 # 		context["category"] = Category.objects.get(pk=self.kwargs["cat_id"])
 # 		return context
 
+class CategoryCreate(CreateView, CategoryContextMixin):
+    model = Category
+    template_name = "category_add.html"
+    fields = "__all__"
+
+    def get(self, request, *args, **kwargs):
+        self.initial['category'] = Category.objects.first() if (self.kwargs.get("cat_id") is None) \
+            else Category.objects.get(pk=self.kwargs["cat_id"])
+        return super(CategoryCreate, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.success_url = reverse('index')
+        return super(CategoryCreate, self).post(request, *args, **kwargs)
+
 
 class GoodCreate(TemplateView):
     """This is example of using simple template with custom form.
@@ -147,13 +161,14 @@ class GoodCreate(TemplateView):
     def post(self, request, *args, **kwargs):
         cat = Category.objects.first() if (self.kwargs["cat_id"] is None)\
             else Category.objects.get(pk=self.kwargs["cat_id"])
-        self.form = GoodFormCustomFields(request.POST)
+        self.form = GoodFormCustomFields(request.POST, request.FILES)
         if self.form.is_valid():
             self.form.save()
             messages.add_message(request, messages.SUCCESS, "Товар успешно добавлен")
             return redirect("index", cat_id=cat.id)
         else:
-            return super(GoodCreate, self).get(request, *args, **kwargs)
+            messages.add_message(request, messages.ERROR, "Товар не добавлен")
+            return self.get(request, *args, **kwargs)
 
 
 class GoodUpdate(UpdateView, GoodEditMixin, GoodEditView):

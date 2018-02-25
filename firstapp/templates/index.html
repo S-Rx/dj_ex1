@@ -2,7 +2,9 @@
 {% block title %}{{ category.name }}{% endblock %}
 {% block main %}
     <h2>{{ category.name }}</h2>
+    {% if perms.firstapp.add_good %}
     <p><a href="{% url 'good_add' cat_id=category.id %}?page={{ page_obj.number }}">Добавить товар</a> </p>
+    {% endif %}
     {% if messages %}
         <ul class="messagelist">
             {% for msg in messages %}
@@ -14,17 +16,25 @@
         <tr>
             <th>Название</th>
             <th>Есть в наличии</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
+            {% if perms.firstapp.change_good %}
+                <th>&nbsp;</th>{% endif %}
+            {% if perms.firstapp.delete_good %}
+                <th>&nbsp;</th>{% endif %}
         </tr>
         {% for good in object_list %}
             <tr>
                 <td><a href="{% url 'good' good_id=good.id %}?page={{ page_obj.number }}">{{ good.name }}</a></td>
                 <td class="centered">{{ good.get_in_stock }}</td>
-                <td class="centered"><a
-                        href="{% url 'good_edit' good_id=good.id %}?page={{ page_obj.number }}">Изменить</a></td>
-                <td class="centered"><a href="{% url 'good_delete' good_id=good.id %}?page={{ page_obj.number }}">Удалить</a>
-                </td>
+                {% if perms.firstapp.change_good %}
+                    <td class="centered">
+                        <a href="{% url 'good_edit' good_id=good.id %}?page={{ page_obj.number }}">Изменить</a>
+                    </td>
+                {% endif %}
+                {% if perms.firstapp.delete_good %}
+                    <td class="centered">
+                        <a href="{% url 'good_delete' good_id=good.id %}?page={{ page_obj.number }}">Удалить</a>
+                    </td>
+                {% endif %}
 
             </tr>
         {% endfor %}

@@ -2,7 +2,7 @@
 {% block title %}Правка :: {{ good.name }} :: {{ good.category.name }}{% endblock %}
 
 {% block main %}
-    <form action="" method="post">
+    <form action="" method="post" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Сохранить">

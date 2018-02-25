@@ -3,5 +3,8 @@
         {% for cat in cats %}
             <li><a href="{% url 'index' cat_id=cat.id %}">{{ cat.name }}</a> </li>
         {% endfor %}
+       {% if perms.firstapp.add_category %}
+           <li><a href="{% url 'category_add' %}">Добавить категорию</a></li>
+       {% endif %}
     </ul>
 </div>

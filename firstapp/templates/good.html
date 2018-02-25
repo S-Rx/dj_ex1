@@ -4,6 +4,7 @@
     {% block main %}
         <h2>{{ good.name }}</h2>
         <p class="category">Категория: {{ good.category.name }}</p>
+        {% if good.thumbnail %}<p><img src="{{ good.thumbnail.url }}"></p>{% endif %}
         <p>{{ good.description|linebreaksbr }}</p>
         <p class="not-in-stock">{% if not good.in_stock %}Нет в наличии{% endif %}</p>
         <p class="price">Цена: {{ good.price }} руб.</p>

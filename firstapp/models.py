@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
 # Create your models here.
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -26,6 +25,7 @@ class Good(models.Model):
     price = models.DecimalField(max_digits=11, decimal_places=2)
     in_stock = models.BooleanField(default=True, db_index=True)
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
+    thumbnail = models.ImageField(upload_to="goods/thumbnails", blank=True, null=True)
 
     def get_in_stock(self):
         return "+" if self.in_stock else ""

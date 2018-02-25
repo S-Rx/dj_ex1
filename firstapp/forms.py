@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from.models import Category, Good
+
+from .models import Category, Good
 
 
 class Errors:
@@ -38,14 +39,16 @@ class GoodFormCustomFields(forms.ModelForm):
                                       empty_label=None)
     in_stock = forms.BooleanField(initial=True,
                                   label="Есть в наличии")
+    thumbnail = forms.ImageField(label="Изображение", widget=forms.FileInput)
 
 
 class GoodFormMetaEditing(forms.ModelForm):
     class Meta:
         model = Good
-        fields = ['name', "description", ]
+        fields = ['name', "description", "thumbnail"]
         labels = {"name": "Название",
-                  "description": "Описание", }
+                  "description": "Описание",
+                  "thumbnail": "Изображение"}
         help_texts = {"name": "Должно быть уникальным"}
         error_messages = {"name": {"required": "Укажите название товара",
                                    "min_length": "Название должно быть длиннее 4х букв",
